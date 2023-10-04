@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { Logo } from '../Logo';
 
-export const AppLayout = ({children}) => {
+export const AppLayout = ({children, ...rest}) => {
 const {user} = useUser();
+const {availableTokens, posts, postId} = rest;
+console.log('postId :>> ', postId, posts);
 return (
         <div className="grid grid-cols-[300px_1fr] h-screen max-h-screen">
             <div className="flex flex-col text-white overflow-hidden">
@@ -15,10 +17,12 @@ return (
                     <Link href="/post/new" className="btn">New post</Link>
                     <Link href="/token-topup" className='block mt-2 text-center'>
                         <FontAwesomeIcon icon={faCoins} className="text-yellow-500"/>
-                        <span className='pl-1'>0</span> tokens available</Link>
+                        <span className='pl-1'>{availableTokens}</span> tokens available</Link>
                 </div>
-                <div className="flex-1 overflow-auto bg-gradient-to-b from-slate-800 to-cyan-800">
-                    list of posts
+                <div className="px-4 flex-1 overflow-auto bg-gradient-to-b from-slate-800 to-cyan-800">
+                    {posts.map(post => {
+                        return <Link key={post._id} href={`/post/${post._id}`} className={`${postId === post._id ? "font-semibold bg-white/20 border-white/40": ""} border border-white/0 block text-ellipsis overflow-hidden whitespace-nowrap my-1 px-2 bg-white/10 cursor-pointer rounded-md`}>{post.topic}</Link>
+                    })}
                 </div>
                 <div className="h-20 px-2 bg-cyan-800 flex items-center gap-2 border-t border-t-black/50 ">
                 {!!user ? (
@@ -48,9 +52,9 @@ return (
     }
                 </div>
             </div>
-            <div>
+            
                 {children}
-            </div>
+            
         </div>
     )
 }
