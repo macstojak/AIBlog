@@ -18,7 +18,6 @@ export const getAppProps = async (ctx) => {
     const posts = await db.collection("posts").find({
         userId: user._id
     }).sort({created: -1}).toArray() || [];
-    console.log('ctx.params :>> ', ctx.params);
     return {
         availableTokens: user.availableTokens,
         postId: ctx.params?.postid || null,

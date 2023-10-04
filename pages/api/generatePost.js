@@ -17,6 +17,13 @@ export default withApiAuthRequired(async function generatePost(req, res) {
         apiKey: process.env.OPENAI_API_KEY
     });
     const {topic, keywords} = req.body;  
+    if(!topic || !keywords) {
+        res.status(422);
+    }
+    if(topic.length > 80 || keywords.length > 80 ) {
+        res.status(422);
+        return;
+    }
 
 const openai = new OpenAIApi(config);
     // const response = await openai.createCompletion({

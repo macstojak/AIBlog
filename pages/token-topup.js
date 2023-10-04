@@ -14,6 +14,8 @@ export default function TokenTopUp(props) {
         })
         const json = await response.json();
         // setPostContent(json.post.postContent);
+        console.log('json :>> ', json);
+        window.location.href = json.session.url;
     }
     return (
         <div className="block">
